@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sabor & Arte Bistro — Uma experiência gastronômica inesquecível</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --ink: #141210;
+    --panel: #1d1a16;
+    --panel-2: #26221c;
+    --line: rgba(231, 205, 122, 0.18);
+    --gold: #c9a227;
+    --gold-light: #e7cd7a;
+    --paper: #f6f2e9;
+    --paper-dim: #c9c2b2;
+    --wine: #5b2430;
+    --wine-light: #7a3340;
+    --radius: 2px;
+    --maxw: 1180px;
+    --ease: cubic-bezier(.22,.61,.36,1);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Karla', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    margin:0;
+    color:var(--paper);
+  }
+  p{margin:0;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  button{font-family:inherit; cursor:pointer;}
+  ::selection{background:var(--gold); color:var(--ink);}
+  :focus-visible{outline:2px solid var(--gold-light); outline-offset:3px;}
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+  @media(max-width:640px){ .wrap{padding:0 20px;} }
+
+  .eyebrow{
+    font-family:'Karla', sans-serif;
+    font-size:0.78rem;
+    letter-spacing:.14em;
+    color:var(--gold-light);
+    font-weight:600;
+  }
+
+  /* ============ HEADER ============ */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:22px 0;
+    transition:background .35s var(--ease), padding .35s var(--ease), border-color .35s var(--ease);
+    border-bottom:1px solid transparent;
+  }
+  header.scrolled{
+    background:rgba(20,18,16,0.92);
+    backdrop-filter:blur(8px);
+    padding:14px 0;
+    border-color:var(--line);
+  }
+  header .wrap{display:flex; align-items:center; justify-content:space-between;}
+  .logo{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:1.5rem;
+    letter-spacing:.01em;
+    color:var(--paper);
+  }
+  .logo span{color:var(--gold-light);}
+  nav.primary-nav{display:flex; align-items:center; gap:38px;}
+  .nav-links{display:flex; gap:34px; list-style:none; margin:0; padding:0;}
+  .nav-links a{
+    font-size:0.92rem;
+    position:relative;
+    padding-bottom:4px;
+    color:var(--paper-dim);
+    transition:color .25s var(--ease);
+  }
+  .nav-links a::after{
+    content:'';
+    position:absolute; left:0; right:100%; bottom:0;
+    height:1px; background:var(--gold-light);
+    transition:right .3s var(--ease);
+  }
+  .nav-links a:hover{color:var(--paper);}
+  .nav-links a:hover::after{right:0;}
+
+  .btn-owner{
+    border:1px solid var(--gold);
+    color:var(--gold-light);
+    background:transparent;
+    padding:9px 20px;
+    font-size:0.85rem;
+    letter-spacing:.03em;
+    border-radius:var(--radius);
+    transition:background .25s var(--ease), color .25s var(--ease);
+  }
+  .btn-owner:hover{background:var(--gold); color:var(--ink);}
+
+  .nav-toggle{display:none; background:none; border:none; padding:6px;}
+  .nav-toggle span{display:block; width:24px; height:2px; background:var(--paper); margin:5px 0; transition:transform .3s, opacity .3s;}
+
+  @media(max-width:860px){
+    nav.primary-nav{
+      position:fixed; top:0; right:0; height:100vh; width:min(78vw, 320px);
+      background:var(--panel);
+      flex-direction:column; align-items:flex-start;
+      padding:100px 32px 40px;
+      gap:36px;
+      transform:translateX(100%);
+      transition:transform .4s var(--ease);
+      border-left:1px solid var(--line);
+    }
+    nav.primary-nav.open{transform:translateX(0);}
+    .nav-links{flex-direction:column; gap:22px;}
+    .nav-toggle{display:block;}
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative;
+    height:100vh; min-height:620px;
+    display:flex; align-items:flex-end;
+    background:
+      linear-gradient(0deg, rgba(15,13,11,0.94) 0%, rgba(15,13,11,0.35) 55%, rgba(15,13,11,0.55) 100%),
+      url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat;
+  }
+  .hero-content{padding-bottom:90px; max-width:640px;}
+  .hero .eyebrow{display:block; margin-bottom:18px;}
+  .hero h1{
+    font-size:clamp(2.4rem, 5.4vw, 4.1rem);
+    line-height:1.06;
+    font-weight:500;
+  }
+  .hero-rule{width:64px; height:1px; background:var(--gold); margin:28px 0;}
+  .hero p.sub{color:var(--paper-dim); font-size:1.05rem; max-width:440px; margin-bottom:34px;}
+
+  .btn-gold{
+    display:inline-block;
+    background:var(--gold);
+    color:var(--ink);
+    padding:15px 34px;
+    font-size:0.92rem;
+    font-weight:700;
+    letter-spacing:.03em;
+    border:1px solid var(--gold);
+    border-radius:var(--radius);
+    transition:background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
+  }
+  .btn-gold:hover{background:transparent; color:var(--gold-light); transform:translateY(-2px);}
+
+  .scroll-cue{
+    position:absolute; right:32px; bottom:36px;
+    writing-mode:vertical-rl;
+    color:var(--paper-dim);
+    font-size:0.72rem; letter-spacing:.16em;
+    display:flex; align-items:center; gap:14px;
+  }
+  .scroll-cue::after{content:''; width:1px; height:46px; background:var(--paper-dim);}
+  @media(max-width:640px){ .scroll-cue{display:none;} }
+
+  /* ============ SECTION BASE ============ */
+  section{padding:110px 0;}
+  .section-head{margin-bottom:56px; max-width:560px;}
+  .section-head .eyebrow{display:block; margin-bottom:14px;}
+  .section-head h2{font-size:clamp(1.9rem, 3.4vw, 2.6rem);}
+
+  /* ============ MENU ============ */
+  #cardapio{background:var(--panel);}
+
+  .filters{
+    display:flex; gap:30px; flex-wrap:wrap;
+    border-bottom:1px solid var(--line);
+    margin-bottom:48px;
+  }
+  .filter-btn{
+    background:none; border:none;
+    color:var(--paper-dim);
+    padding:0 0 16px;
+    font-size:0.95rem;
+    position:relative;
+    transition:color .25s var(--ease);
+  }
+  .filter-btn::after{
+    content:''; position:absolute; left:0; right:0; bottom:-1px; height:2px;
+    background:var(--gold); transform:scaleX(0); transform-origin:left;
+    transition:transform .3s var(--ease);
+  }
+  .filter-btn:hover{color:var(--paper);}
+  .filter-btn.active{color:var(--gold-light);}
+  .filter-btn.active::after{transform:scaleX(1);}
+
+  .menu-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(270px, 1fr));
+    gap:36px 30px;
+  }
+  .menu-item{
+    border-bottom:1px solid var(--line);
+    padding-bottom:26px;
+    animation:fadeIn .5s var(--ease);
+  }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  .menu-item figure{
+    margin:0 0 18px;
+    overflow:hidden;
+    aspect-ratio:4/3;
+    background:var(--panel-2);
+  }
+  .menu-item img{
+    width:100%; height:100%; object-fit:cover;
+    transition:transform .5s var(--ease);
+  }
+  .menu-item:hover img{transform:scale(1.06);}
+
+  .menu-item .row{display:flex; justify-content:space-between; align-items:baseline; gap:14px;}
+  .menu-item h3{font-size:1.18rem; font-weight:500;}
+  .menu-item .price{
+    color:var(--gold-light);
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:1.08rem;
+    white-space:nowrap;
+  }
+  .menu-item .desc{
+    color:var(--paper-dim);
+    font-size:0.92rem;
+    margin-top:8px;
+  }
+  .menu-item .tag{
+    display:inline-block;
+    margin-top:12px;
+    font-size:0.7rem;
+    letter-spacing:.08em;
+    color:var(--wine-light);
+    border:1px solid var(--wine);
+    padding:3px 9px;
+    border-radius:var(--radius);
+  }
+  .empty-state{
+    color:var(--paper-dim);
+    font-style:italic;
+    font-family:'Fraunces', serif;
+    padding:40px 0;
+  }
+
+  /* ============ CONTATO ============ */
+  #contato{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+  }
+  .contact-info{padding:110px 48px 110px 0;}
+  .contact-info .wrap{padding:0;}
+  #contato .map-col{min-height:520px; background:var(--panel-2);}
+  #contato .map-col iframe{width:100%; height:100%; min-height:520px; border:0; filter:grayscale(.35) contrast(1.05);}
+
+  .info-block{margin-bottom:32px;}
+  .info-block h4{
+    font-family:'Karla', sans-serif;
+    font-size:0.78rem;
+    letter-spacing:.12em;
+    color:var(--gold-light);
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  .info-block p{color:var(--paper); font-size:1.02rem;}
+  .info-block p.dim{color:var(--paper-dim);}
+
+  @media(max-width:900px){
+    #contato{grid-template-columns:1fr;}
+    .contact-info{padding:90px 0 60px;}
+    #contato .map-col{order:-1; height:340px; min-height:340px;}
+    #contato .map-col iframe{min-height:340px;}
+  }
+
+  /* ============ FOOTER ============ */
+  footer{
+    border-top:1px solid var(--line);
+    padding:36px 0;
+    text-align:center;
+    color:var(--paper-dim);
+    font-size:0.85rem;
+  }
+  footer .logo{font-size:1rem; display:block; margin-bottom:8px;}
+
+  /* ============ MODAL (Painel do Proprietário) ============ */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:200;
+    background:rgba(10,9,8,0.78);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    opacity:0; visibility:hidden;
+    transition:opacity .3s var(--ease), visibility .3s var(--ease);
+  }
+  .modal-overlay.open{opacity:1; visibility:visible;}
+  .modal{
+    background:var(--panel);
+    border:1px solid var(--line);
+    max-width:520px; width:100%;
+    max-height:88vh; overflow-y:auto;
+    padding:40px;
+    transform:translateY(14px);
+    transition:transform .35s var(--ease);
+  }
+  .modal-overlay.open .modal{transform:translateY(0);}
+  .modal-head{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;}
+  .modal-head h3{font-size:1.5rem;}
+  .modal-close{background:none; border:none; color:var(--paper-dim); font-size:1.6rem; line-height:1; padding:0;}
+  .modal-close:hover{color:var(--paper);}
+  .modal-sub{color:var(--paper-dim); font-size:0.9rem; margin-bottom:28px;}
+
+  .field{margin-bottom:20px;}
+  .field label{
+    display:block; font-size:0.78rem; letter-spacing:.06em;
+    color:var(--paper-dim); margin-bottom:8px;
+  }
+  .field input, .field select, .field textarea{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--paper);
+    padding:11px 13px;
+    font-family:'Karla', sans-serif;
+    font-size:0.95rem;
+    border-radius:var(--radius);
+    transition:border-color .25s var(--ease);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--gold);}
+  .field textarea{resize:vertical; min-height:70px;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+
+  .btn-submit{
+    width:100%;
+    background:var(--gold);
+    color:var(--ink);
+    border:none;
+    padding:14px;
+    font-weight:700;
+    font-size:0.92rem;
+    letter-spacing:.03em;
+    border-radius:var(--radius);
+    margin-top:8px;
+    transition:background .25s var(--ease);
+  }
+  .btn-submit:hover{background:var(--gold-light);}
+
+  .form-msg{
+    font-size:0.85rem;
+    color:var(--gold-light);
+    margin-top:14px;
+    display:none;
+  }
+  .form-msg.show{display:block;}
+
+  @media(max-width:480px){
+    .field-row{grid-template-columns:1fr;}
+    .modal{padding:28px 22px;}
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="wrap">
+    <a href="#inicio" class="logo">Sabor <span>&</span> Arte <span>Bistro</span></a>
+    <nav class="primary-nav" id="primary-nav">
+      <ul class="nav-links">
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#cardapio">Cardápio</a></li>
+        <li><a href="#contato">Localização &amp; Contato</a></li>
+      </ul>
+      <button class="btn-owner" id="open-owner-panel">Painel do Proprietário</button>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="wrap">
+    <div class="hero-content">
+      <span class="eyebrow">SABOR &amp; ARTE BISTRO</span>
+      <h1>Uma experiência gastronômica inesquecível</h1>
+      <div class="hero-rule"></div>
+      <p class="sub">Ingredientes selecionados, técnica apurada e um ambiente pensado para transformar cada refeição em um momento memorável.</p>
+      <a href="#cardapio" class="btn-gold">Ver Cardápio</a>
+    </div>
+  </div>
+  <div class="scroll-cue">ROLE PARA EXPLORAR</div>
+</section>
+
+<section id="cardapio">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">O CARDÁPIO</span>
+      <h2>Pratos e bebidas preparados com cuidado</h2>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="todos">Todos</button>
+      <button class="filter-btn" data-filter="prato">Pratos Principais</button>
+      <button class="filter-btn" data-filter="bebida">Bebidas</button>
+      <button class="filter-btn" data-filter="sobremesa">Sobremesas</button>
+    </div>
+
+    <div class="menu-grid" id="menu-grid"></div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="contact-info">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:40px;">
+        <span class="eyebrow">VISITE-NOS</span>
+        <h2>Localização &amp; Contato</h2>
+      </div>
+
+      <div class="info-block">
+        <h4>ENDEREÇO</h4>
+        <p>Av. Paulista, 1000 — Bela Vista, São Paulo - SP</p>
+      </div>
+      <div class="info-block">
+        <h4>TELEFONE / WHATSAPP</h4>
+        <p><a href="https://wa.me/5511999998888" target="_blank" rel="noopener">(11) 99999-8888</a></p>
+      </div>
+      <div class="info-block">
+        <h4>HORÁRIO DE FUNCIONAMENTO</h4>
+        <p>Terça a Domingo, das 12h às 23h</p>
+        <p class="dim">Segundas-feiras, fechado.</p>
+      </div>
+    </div>
+  </div>
+  <div class="map-col">
+    <iframe
+      src="https://www.google.com/maps?q=Avenida+Paulista+1000+Bela+Vista+São+Paulo+SP&output=embed"
+      title="Mapa de localização do Sabor & Arte Bistro"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+</section>
+
+<footer>
+  <span class="logo">Sabor &amp; Arte Bistro</span>
+  <p>© 2026 Sabor &amp; Arte Bistro. Todos os direitos reservados.</p>
+</footer>
+
+<!-- ============ MODAL: PAINEL DO PROPRIETÁRIO ============ -->
+<div class="modal-overlay" id="owner-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Painel do Proprietário</h3>
+      <button class="modal-close" id="close-owner-panel" aria-label="Fechar">&times;</button>
+    </div>
+    <p class="modal-sub">Adicione um novo item ao cardápio. Ele aparecerá na grade do site imediatamente.</p>
+
+    <form id="add-item-form">
+      <div class="field">
+        <label for="item-name">Nome do Prato/Bebida</label>
+        <input type="text" id="item-name" required placeholder="Ex.: Risoto de Funghi">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="item-category">Categoria</label>
+          <select id="item-category" required>
+            <option value="prato">Prato Principal</option>
+            <option value="bebida">Bebida</option>
+            <option value="sobremesa">Sobremesa</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="item-price">Preço (R$)</label>
+          <input type="number" id="item-price" step="0.01" min="0" required placeholder="Ex.: 45.00">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="item-desc">Descrição</label>
+        <textarea id="item-desc" required placeholder="Principais ingredientes do item"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="item-image">URL da Imagem</label>
+        <input type="url" id="item-image" required placeholder="https://...">
+      </div>
+
+      <button type="submit" class="btn-submit">Adicionar ao Cardápio</button>
+      <p class="form-msg" id="form-msg">Item adicionado ao cardápio com sucesso.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+
+  /* ============ DADOS INICIAIS DO CARDÁPIO ============ */
+  let menuItems = [
+    {
+      name: "Filé ao Molho de Vinho Tinto",
+      category: "prato",
+      desc: "Filé mignon grelhado, redução de vinho tinto, ervas frescas e purê de batatas rústico.",
+      price: 78.00,
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Risoto de Cogumelos Selvagens",
+      category: "prato",
+      desc: "Arroz arbóreo, mix de cogumelos, parmesão envelhecido e toque de trufa.",
+      price: 64.00,
+      image: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Salmão Grelhado com Legumes",
+      category: "prato",
+      desc: "Salmão em ponto perfeito, aspargos salteados e molho de manteiga e limão siciliano.",
+      price: 69.00,
+      image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Suco Natural de Laranja (500ml)",
+      category: "bebida",
+      desc: "Laranjas selecionadas, espremidas na hora, sem adição de açúcar.",
+      price: 12.00,
+      image: "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Soda Italiana de Maçã Verde",
+      category: "bebida",
+      desc: "Xarope artesanal de maçã verde com água com gás e gelo.",
+      price: 16.00,
+      image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Vinho Tinto Reserva Cabernet (Taça)",
+      category: "bebida",
+      desc: "Cabernet Sauvignon encorpado, notas de frutas vermelhas maduras e carvalho.",
+      price: 28.00,
+      image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Cerveja Artesanal IPA (600ml)",
+      category: "bebida",
+      desc: "IPA lupulada, aromas cítricos e final levemente amargo.",
+      price: 22.00,
+      image: "https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Petit Gâteau com Sorvete",
+      category: "sobremesa",
+      desc: "Bolo de chocolate meio amargo com recheio cremoso e sorvete de creme.",
+      price: 32.00,
+      image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "Tiramisù Tradicional",
+      category: "sobremesa",
+      desc: "Camadas de biscoito champagne, café espresso, mascarpone e cacau.",
+      price: 29.00,
+      image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80"
+    }
+  ];
+
+  let activeFilter = "todos";
+
+  const grid = document.getElementById("menu-grid");
+  const filtersEl = document.getElementById("filters");
+
+  const categoryLabel = { prato: "Prato Principal", bebida: "Bebida", sobremesa: "Sobremesa" };
+
+  function formatPrice(value){
+    return "R$ " + Number(value).toFixed(2).replace(".", ",");
+  }
+
+  function renderMenu(){
+    const list = activeFilter === "todos"
+      ? menuItems
+      : menuItems.filter(i => i.category === activeFilter);
+
+    if(list.length === 0){
+      grid.innerHTML = '<p class="empty-state">Nenhum item nesta categoria ainda.</p>';
+      return;
+    }
+
+    grid.innerHTML = list.map(item => `
+      <article class="menu-item" data-category="${item.category}">
+        <figure>
+          <img src="${item.image}" alt="${item.name}" loading="lazy">
+        </figure>
+        <div class="row">
+          <h3>${item.name}</h3>
+          <span class="price">${formatPrice(item.price)}</span>
+        </div>
+        <p class="desc">${item.desc}</p>
+        <span class="tag">${categoryLabel[item.category]}</span>
+      </article>
+    `).join("");
+  }
+
+  filtersEl.addEventListener("click", (e) => {
+    const btn = e.target.closest(".filter-btn");
+    if(!btn) return;
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeFilter = btn.dataset.filter;
+    renderMenu();
+  });
+
+  renderMenu();
+
+  /* ============ HEADER: fundo sólido ao rolar ============ */
+  const header = document.getElementById("site-header");
+  window.addEventListener("scroll", () => {
+    header.classList.toggle("scrolled", window.scrollY > 40);
+  });
+
+  /* ============ MENU MOBILE ============ */
+  const navToggle = document.getElementById("nav-toggle");
+  const primaryNav = document.getElementById("primary-nav");
+  navToggle.addEventListener("click", () => primaryNav.classList.toggle("open"));
+  primaryNav.querySelectorAll("a").forEach(a =>
+    a.addEventListener("click", () => primaryNav.classList.remove("open"))
+  );
+
+  /* ============ PAINEL DO PROPRIETÁRIO (MODAL) ============ */
+  const ownerModal = document.getElementById("owner-modal");
+  const openOwnerBtn = document.getElementById("open-owner-panel");
+  const closeOwnerBtn = document.getElementById("close-owner-panel");
+  const addItemForm = document.getElementById("add-item-form");
+  const formMsg = document.getElementById("form-msg");
+
+  function openModal(){
+    ownerModal.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal(){
+    ownerModal.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  openOwnerBtn.addEventListener("click", openModal);
+  closeOwnerBtn.addEventListener("click", closeModal);
+  ownerModal.addEventListener("click", (e) => { if(e.target === ownerModal) closeModal(); });
+  document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeModal(); });
+
+  addItemForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const newItem = {
+      name: document.getElementById("item-name").value.trim(),
+      category: document.getElementById("item-category").value,
+      desc: document.getElementById("item-desc").value.trim(),
+      price: parseFloat(document.getElementById("item-price").value),
+      image: document.getElementById("item-image").value.trim()
+    };
+
+    menuItems.unshift(newItem);
+
+    // Garante que o item novo apareça mesmo se o filtro atual não for "Todos"
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    document.querySelector('.filter-btn[data-filter="todos"]').classList.add("active");
+    activeFilter = "todos";
+
+    renderMenu();
+
+    formMsg.classList.add("show");
+    addItemForm.reset();
+
+    setTimeout(() => {
+      closeModal();
+      formMsg.classList.remove("show");
+    }, 1200);
+  });
+
+})();
+</script>
+</body>
+</html>
